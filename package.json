@@ -1,0 +1,15 @@
+{
+    "name": "Rhino",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "express": "3.4.4",
+        "jade": "0.35.0",
+        "passport": "0.1.17",
+        "passport-local": "0.1.6",
+        "mongoose": "3.8.0"
+    }
+}
