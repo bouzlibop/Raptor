@@ -1,0 +1,16 @@
+extends layouts/layout
+block append head
+    title Rhino
+block append css
+    link(rel='stylesheet', href='/stylesheets/index.css')
+block append content
+  h1= title
+  p Welcome to #{title}
+  input(id="deleteUser" data-user-id=userId type="button" value="Delete")
+  input(id="logOut" type="button" value="Log Out")
+  form(action="/upload" method="post" enctype='multipart/form-data')
+    input(id="uploadModel" type="file" name="model")
+    input(type="submit" value="Upload")
+block append javascript
+    script(src="javascripts/jquery-1.10.2.js")
+    script(src='/javascripts/authorized.js')

@@ -6,7 +6,11 @@ module.exports = function (app, passport, handler){
     app.get('/', ensureAuthenticated, routes.index);
 
     app.get('/login', routes.login);
-    app.post('/login', passport.authenticate('local', {successRedirect: '/', failureRedirect: '/login' }));
+    app.post('/login', passport.authenticate('local', {failureRedirect: '/login' }), function(req, res){
+        res.send(200, 'http://localhost:3000/');
+    });    //TODO-me zmienic tak zeby na post odpowiadał czymś z linkami
+
+    app.get('/creator', ensureAuthenticated, routes.creator);
 
     app.get('/signup', routes.login);
     app.post('/signup', handler.signup);

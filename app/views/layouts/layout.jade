@@ -1,7 +1,10 @@
 doctype 5
-html
+html(lang="en")
     head
-        title= title
-        link(rel='stylesheet', href='/stylesheets/style.css')
+        meta(charset="utf-8")
+        block head
+        block css
+            link(rel="stylesheet" href="stylesheets/normalize.css")
     body
         block content
+        block javascript
