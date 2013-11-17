@@ -7,6 +7,8 @@ module.exports = function (app, passport, handler){
 
     app.get('/login', routes.login);
     app.post('/login', passport.authenticate('local', {failureRedirect: '/login' }), function(req, res){
+        res.set('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
+        res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
         res.send(200, 'http://localhost:3000/');
     });    //TODO-me zmienic tak zeby na post odpowiadał czymś z linkami
 
