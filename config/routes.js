@@ -1,43 +1,35 @@
-var routes = require('../routes');
-var user = require('../routes/user');
+var path = require('path');
 
-module.exports = function (app, passport, handler){
+module.exports = function (app, passport, handler, config) {
 
-    app.get('/', ensureAuthenticated, routes.index);
+    var router = require(path.join(config.root, 'app/controllers/router'));
 
-    app.get('/login', routes.login);
-    app.post('/login', passport.authenticate('local', {failureRedirect: '/login' }), function(req, res){
-        res.send(200, 'http://localhost:3000/');
-    });    //TODO-me zmienic tak zeby na post odpowiadał czymś z linkami
-
-    app.get('/creator', ensureAuthenticated, routes.creator);
-
-    app.get('/signup', routes.login);
-    app.post('/signup', handler.signup);
-
-    app.get('/users', ensureAuthenticated, user.list);
-
-    //app.get()
-    app.post('/upload', ensureAuthenticated, handler.upload);
-
-    app.get('/logout', function (req, res) {
-        req.logout();
-        res.redirect('/login');
-    });
-
-    app.all('/users/:id', function(req, res, next){
+    app.all('/*', function (req, res, next) {
         if (!req.get('Origin')) return next();
         res.set('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
         res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-        // res.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
-        // res.set('Access-Control-Allow-Max-Age', 3600);
         if ('OPTIONS' == req.method) return res.send(200);
         next();
     });
 
-    app.del('/users/:id',function(req, res){
-        //TODO-me response header for delete
-        handler.deleteUser(req.param('id'), res);
+    app.get('/', ensureAuthenticated, router.dashboard);
+
+    app.get('/login', router.login);
+    app.post('/login', passport.authenticate('local', {failureRedirect: '/login' }), function (req, res) {
+        res.send(200, config.server);
+    });
+
+
+    app.get('/creator', router.creator);
+    app.get('/blog', router.blog);
+    app.get('/shop', router.shop);
+
+    app.get('/register', router.register);
+    app.post('/registration', handler.signup);
+
+    app.get('/logout', function (req, res) {
+        req.logout();
+        res.redirect('/login');
     });
 
     function ensureAuthenticated(req, res, next) {
@@ -46,5 +38,27 @@ module.exports = function (app, passport, handler){
         }
         res.redirect('/login')
     }
+
+//    app.post('/upload', ensureAuthenticated, handler.upload);
+//
+//    app.all('/users/:id', function (req, res, next) {
+//        if (!req.get('Origin')) return next();
+//        res.set('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
+//        res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//        // res.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
+//        // res.set('Access-Control-Allow-Max-Age', 3600);
+//        if ('OPTIONS' == req.method) return res.send(200);
+//        next();
+//    });
+//
+//    app.del('/users/:id', function (req, res) {
+//        handler.deleteUser(req.param('id'), res);
+//    });
+
 }
+
+
+
 //TODO-me move to handler
+//TODO-me response header for delete
+//TODO-me zmienic tak zeby na post odpowiadał czymś z linkami

@@ -1,0 +1,51 @@
+extends layouts/layout
+block append head
+    title Rhino
+    script(src="javascripts/vendors/custom.modernizr.js")
+block append css
+    link(rel="stylesheet" href="stylesheets/vendors/foundation.css")
+    link(rel='stylesheet' href='stylesheets/app/login.css')
+block append content
+    nav.top-bar(data-options="is_hover:true")
+        ul.title-area
+            li.name
+                h1
+                    a(href=server) Rhino
+        section.top-bar-section
+            ul.left
+                li.divider
+                li.active
+                    a(href=server)
+                        img(src="images/rhino.png")
+                li.divider
+                li.has-dropdown
+                    a Modules
+                    ul.dropdown
+                        li
+                            a(href=server+"/creator") Creator
+                        li
+                            a(href=server+"/shop") Shop
+                        li
+                            a(href=server+"/blog") Blog
+                li.divider
+                    a(href=server+"/about") About
+            ul.right
+                li.divider
+                li
+                    input(type="text" name="username" placeholder="username")
+                li.divider
+                li
+                    input(type="text" name="password" placeholder="password")
+                li.divider
+                li.has-form
+                    a.button.small.radius(id="logInBtn") Log In!
+    #container
+block append javascript
+    script(src="javascripts/vendors/jquery-1.10.2.js")
+    script(src="javascripts/vendors/foundation.min.js")
+    script(src="javascripts/vendors/three.js")
+    script(src="javascripts/app/login.js")
+    script.
+        $(document).foundation();
+
+

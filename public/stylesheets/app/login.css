@@ -1,5 +1,7 @@
 body {
-    background: url("../images/bg.png")
+    background: url("../../images/bg.png");
+    margin: 0;
+    overflow: hidden;
 }
 
 /*.top-bar-section ul li > a.button {*/
@@ -24,3 +26,9 @@ body {
     /*margin: 5px 1px 3px 0px;*/
     border: 1px solid rgba(0, 150, 255, 1);
 }
+
+.top-bar-section img{
+    max-height:45px;
+    max-width:45px;
+}
+
