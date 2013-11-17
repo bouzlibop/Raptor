@@ -1,4 +1,4 @@
-var routes = require('../../routes');
+var routes = require('../.');
 var User = require('../models/user');
 var passport = require("passport");
 var fs = require('fs');
