@@ -1,4 +1,4 @@
-var server = "http://localhost:3000"
+var server = "http://127.0.0.1:3000"
 
 $('#logInBtn').click(function(){
     $.ajax({

@@ -2,21 +2,23 @@ var path = require('path');
 
 module.exports = function (app, passport, handler, config) {
 
-    var router = require(path.join(config.root, 'app/controllers/router'));
+    var router = require(path.join(config.root, '/app/controllers/router'));
 
-    app.all('/*', function (req, res, next) {
-        if (!req.get('Origin')) return next();
-        res.set('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
-        res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-        if ('OPTIONS' == req.method) return res.send(200);
-        next();
-    });
+//    app.all('/*', function (req, res, next) {
+//        if (!req.get('Origin')) return next();
+//        res.set('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
+//        res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//        if ('OPTIONS' == req.method) return res.send(200);
+//        next();
+//    });
 
     app.get('/', ensureAuthenticated, router.dashboard);
 
     app.get('/login', router.login);
     app.post('/login', passport.authenticate('local', {failureRedirect: '/login' }), function (req, res) {
-        res.send(200, config.server);
+        res.set('Access-Control-Allow-Origin', '*');
+        res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+        res.send(200, 'http://127.0.0.1:3000/');
     });
 
 
@@ -62,3 +64,4 @@ module.exports = function (app, passport, handler, config) {
 //TODO-me move to handler
 //TODO-me response header for delete
 //TODO-me zmienic tak zeby na post odpowiadał czymś z linkami
+
