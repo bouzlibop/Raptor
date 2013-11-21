@@ -8,7 +8,7 @@ module.exports = function (express, app, config, passport) {
     app.set('views', path.join(config.root, 'app/views'));
     app.set('view engine', 'jade');
 
-    app.use(express.favicon(config.root + '/public/images/favicon.ico'));
+    app.use(express.favicon(config.root + '/public/images/raptor.ico'));
 
     app.use(express.logger('dev'));
     app.use(express.bodyParser());//app.use(express.json()); app.use(express.urlencoded()); app.use(express.multipart());

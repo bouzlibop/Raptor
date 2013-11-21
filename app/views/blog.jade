@@ -1,0 +1,63 @@
+extends layouts/layout
+block append head
+    title Rhino
+    script(src="javascripts/vendors/custom.modernizr.js")
+block append css
+    link(rel="stylesheet" href="stylesheets/vendors/foundation.css")
+    link(rel='stylesheet' href='stylesheets/app/blog.css')
+block append content
+    nav.top-bar(data-options="is_hover:true")
+        ul.title-area
+            li.name
+                h1
+                    a(href=server) Rhino
+        section.top-bar-section
+            ul.left
+                li.divider
+                li.active
+                    a(href=server)
+                        img(src="images/rhino.png")
+                li.divider
+                li.has-dropdown
+                    a Modules
+                    ul.dropdown
+                        li
+                            a(href=server+"/creator") Creator
+                        li
+                            a(href=server+"/shop") Shop
+                        li
+                            a(href=server+"/blog") Blog
+                li.divider
+                li
+                    a(href=server+"/about") About
+                li.divider
+                li.has-form
+                    div
+                        a.button.tiny.alert.radius(id="signUpBtn") Sign Up!
+            ul.right
+                li.divider
+                li.has-form
+                    input(type="text" name="l_username" placeholder="username")
+                li.divider
+                li.has-form
+                    input(type="text" name="l_password" placeholder="password")
+                li.divider
+                li.has-form
+                    a.button.tiny.success.radius(id="logInBtn") Log In!
+    #signUpForm.row
+        form.large-4.columns
+            label Username
+            input(type="text" name="s_username")
+            label Password
+            input(type="text" name="s_password")
+            label Email
+            input(type="email" name="s_email")
+    #container
+block append javascript
+    script(src="javascripts/vendors/jquery-1.10.2.js")
+    script(src="javascripts/vendors/foundation.min.js")
+    script(src="javascripts/app/blog.js")
+    script.
+        $(document).foundation();
+
+

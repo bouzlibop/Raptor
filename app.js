@@ -11,11 +11,17 @@ var handler = require(path.join(config.root+'/app/controllers/handler'));
 var express = require('express');
 var passport = require('passport');
 var mongoose = require('mongoose');
+var grid = require('gridfs-stream');
+grid.mongo = mongoose.mongo;
 
 mongoose.connect(config.db);
 var db = mongoose.connection;
+
 db.on('error', console.error.bind(console, error('connection error:')));
-db.on('open', console.log.bind(console, notice('Express server connected to MongoDB')));
+db.on('open', function(){
+    console.log.bind(console, notice('Express server connected to MongoDB'));
+    GLOBAL.gfs = grid(db.db);
+});
 
 var app = express();
 require('./config/passport')(passport, mongoose, config);

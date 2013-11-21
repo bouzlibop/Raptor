@@ -4,16 +4,36 @@ $('#logInBtn').click(function(){
     $.ajax({
         type: 'POST',
         data: {
-            username: $("input[name='username']").val(),
-            password: $("input[name='password']").val()
+            username: $("input[name='l_username']").val(),
+            password: $("input[name='l_password']").val()
         },
         url: server+"/login"
     }).done(function(data){
-            window.location.replace(data);
+            window.location.replace(data);     //TODO-me custom callback!
     });
 });
 
+$("#signUpBtn").click(function(){
+    $('#myModal').foundation('reveal', 'open');
+});
+
+
+$("#registerBtn").click(function(){
+    $.ajax({
+        type: 'POST',
+        data: {
+            username: $("input[name='s_username']").val(),
+            password: $("input[name='s_password']").val(),
+            email: $("input[name='s_email']").val()
+        },
+        url: server+"/register"
+    }).done(function(data){
+            window.location.replace(data);
+        });
+});
+
 $(document).ready(function () {
+
     var scene = new THREE.Scene();
 
     var cameraOptions = {
@@ -30,13 +50,15 @@ $(document).ready(function () {
     renderer.setClearColor(0x000000, 0.5);
     renderer.setSize(window.innerWidth, window.innerHeight-45);
 
-    var tetrahedronGeometryParameters = {
-        radius: 20,
-        detail: 0
+    THREEx.WindowResize(renderer, camera);
+
+    var torusKnotGeometryParameters = {
+        radius: 9,
+        tube: 2
     }
-    var tetrahedronGeometry = new THREE.TetrahedronGeometry(tetrahedronGeometryParameters.radius, tetrahedronGeometryParameters.detail);
-    var tetrahedronMaterial = new THREE.MeshBasicMaterial({ color: 0xff3333, wireframe: false });
-    var cube = new THREE.Mesh(tetrahedronGeometry, tetrahedronMaterial);
+    var torusKnotGeometry = new THREE.TorusKnotGeometry(torusKnotGeometryParameters.radius, torusKnotGeometryParameters.tube);
+    var torusKnotMaterial = new THREE.MeshBasicMaterial({ color: 0xff3333, wireframe: true });
+    var cube = new THREE.Mesh(torusKnotGeometry, torusKnotMaterial);
     cube.position.set(4, 3, 0);
     scene.add(cube);
 

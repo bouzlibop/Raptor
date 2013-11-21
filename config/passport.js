@@ -6,15 +6,11 @@ module.exports = function (passport, mongoose, config) {
     var User = require(path.join(config.root, 'app/models/user'));
 
     passport.serializeUser(function (user, done) {
-        console.log('serializuje usera');
-        console.log(user);
         done(null, user.id);//==user._id
     });
 
     passport.deserializeUser(function (id, done) {
         User.findOne({_id:id}, function(err,user){
-            console.log('deserializuje usera');
-            console.log(user);
             done(err, user);
         });
     });

@@ -1,9 +1,26 @@
-var routes = require('../.');
 var User = require('../models/user');
 var passport = require("passport");
 var fs = require('fs');
 var path = require('path');
-//TODO-me jednakowe cudzysłów
+
+exports.signup = function(req,res, next){
+    User.findOne({username:req.body.username}, function(err, data){
+        if(data==null){
+            var newUser = new User();
+            newUser.username = req.body.username;
+            newUser.password = req.body.password;
+            newUser.email = req.body.email;
+            newUser.save(function(err, result){
+                if(err) console.log(err);
+                passport.authenticate('local', {failureRedirect: '/login' })(req,res, next);
+            });
+        }else{
+            res.set('Access-Control-Allow-Origin', '*');
+            res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+            res.send(200, 'http://127.0.0.1:3000/');
+        }
+    })
+};
 
 exports.deleteUser = function(userId, res){
 
@@ -11,49 +28,59 @@ exports.deleteUser = function(userId, res){
     User.findById( userId, function (err, doc) {
         if (err) return err
         if(doc==null){
+            res.set('Access-Control-Allow-Origin', '*');
+            res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
             res.send(204);
         }else{
             doc.remove(function(){
-                res.send(200);
+                res.set('Access-Control-Allow-Origin', '*');
+                res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+                res.send(200, 'http://127.0.0.1:3000/');
             });
         }
     })
 };
 
-//todo-me manage error
-exports.signup = function(req,res){
-    User.findOne({username:req.body.username}, function(err, data){
-        if(data==null){
-            var newUser = new User();
-            newUser.username = req.body.username;
-            newUser.password = req.body.password;
-            newUser.save(function(err, result){
-                if(err) console.log(err);
-                    passport.authenticate('local', {successRedirect: '/', failureRedirect: '/login' })(req,res);
-            });
-        }else{
-            //todo-me enable flash messages
-            routes.login(req, res);
-//          window.location.replace("http://127.0.0.1:3000/");
-        }
-    })
-};
-                        //TODO-me only realtive paths
 exports.upload = function(req,res){
     //    console.log('file: %j', req.files.model);
     var model = req.files.model;
-
-    var newPath = path.resolve(__dirname + './../..' + '/data');
-    newPath = newPath + '\\'+model.name;
-//    console.log("moving from : "+model.path+" to: "+newPath);
-//    fs.rename(model.path, newPath, function(err){
-//        if(err) throw err;
-//    });
     var is = fs.createReadStream(model.path);
-    var os = fs.createWriteStream(newPath);
+    var os = GLOBAL.gfs.createWriteStream({filename: model.name, metadata: {username: req.user.username}});
+//    console.log(req.files.model);
     is.pipe(os);
+    os.on('close', function(file){
+        console.log(file.filename);
+    });
     is.on('end',function() {
         fs.unlinkSync(model.path);
-        passport.authenticate('local', {successRedirect: '/', failureRedirect: '/login' })(req,res);
+        res.set('Access-Control-Allow-Origin', '*');
+        res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+        res.send(200, 'http://127.0.0.1:3000/');
     });
 }
+
+exports.showAll= function(req,res,next){
+    var readStream = GLOBAL.gfs.createReadStream({filename:'tucan.png'});
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//    res.set('Content-Type', 'image/png');
+//    res.set('Content-Transfer-Encoding', 'base64');
+    readStream.pipe(res);
+//    var file = '';
+//    readStream.on('data', function(chunk){
+//        file = file+chunk;
+//    });
+//    readStream.on('end', function(){
+//        file.replace("/", '');
+//        var image = new Buffer(file.toString(), "binary").toString('base64');
+//        res.set('Access-Control-Allow-Origin', '*');
+//        res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//        image = "data:image/png;base64,"+image;
+//        res.send("<img src=\""+ image +"\"/>");
+//    });
+};
+
+//TODO-me jednakowe cudzysłów
+//todo-me enable flash messages
+//todo-me manage error
+//TODO-me only realtive paths

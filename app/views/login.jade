@@ -1,6 +1,6 @@
 extends layouts/layout
 block append head
-    title Rhino
+    title Raptor
     script(src="javascripts/vendors/custom.modernizr.js")
 block append css
     link(rel="stylesheet" href="stylesheets/vendors/foundation.css")
@@ -10,40 +10,51 @@ block append content
         ul.title-area
             li.name
                 h1
-                    a(href=server) Rhino
+                    a(href=server) Raptor
+                        img(src="images/raptor.png")
         section.top-bar-section
             ul.left
+                //li.active
                 li.divider
-                li.active
-                    a(href=server)
-                        img(src="images/rhino.png")
+                li
+                    a(href=server+"/creator") Creator
                 li.divider
-                li.has-dropdown
-                    a Modules
-                    ul.dropdown
-                        li
-                            a(href=server+"/creator") Creator
-                        li
-                            a(href=server+"/shop") Shop
-                        li
-                            a(href=server+"/blog") Blog
+                li
+                    a(href=server+"/shop") Shop
                 li.divider
+                li
+                    a(href=server+"/blog") Blog
+                li.divider
+                li
                     a(href=server+"/about") About
-            ul.right
-                li.divider
-                li
-                    input(type="text" name="username" placeholder="username")
-                li.divider
-                li
-                    input(type="text" name="password" placeholder="password")
                 li.divider
                 li.has-form
-                    a.button.small.radius(id="logInBtn") Log In!
+                    div
+                        a.button.tiny.alert.radius(id="signUpBtn") Sign Up!
+            ul.right
+                li.divider
+                li.has-form
+                    input(type="text" name="l_username" placeholder="username")
+                li.has-form
+                    input(type="password" name="l_password" placeholder="password")
+                li.has-form
+                    a.button.tiny.alert.radius(id="logInBtn") Log In!
     #container
+    #myModal.reveal-modal.tiny
+        h2 Register
+        p.lead Start shaping your way.
+        form
+           input(type="text" name="s_email" placeholder="email")
+           input(type="text" name="s_username" placeholder="username")
+           input(type="password" name="s_password" placeholder="password")
+           br
+           a.button.samll.radius.alert(id="registerBtn") Register
+        a.close-reveal-modal &#215;
 block append javascript
     script(src="javascripts/vendors/jquery-1.10.2.js")
     script(src="javascripts/vendors/foundation.min.js")
     script(src="javascripts/vendors/three.js")
+    script(src="javascripts/app/WindowResize.js")
     script(src="javascripts/app/login.js")
     script.
         $(document).foundation();

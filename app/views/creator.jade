@@ -1,18 +1,182 @@
 extends layouts/layout
 block append head
     title Rhino - Creator
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    meta(name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0")
     meta(name="description" content="Web environment for 3D printing")
     meta(name="author" content="Adrian Baran")
 block append css
-    link(rel="stylesheet" href="stylesheets/app/creator.css")
+    link(rel="stylesheet" href="stylesheets/app/creator_types.css")
+    link(id="theme" rel="stylesheet" href="stylesheets/app/creator_light.css" )
 block append content
-    div#stats
-    div#workspace
 block append javascript
-    script(src="javascripts/jquery-1.10.2.js")
-    script(src="/javascripts/three.js")
-    script(src="/javascripts/dat.gui.js")
-    script(src="/javascripts/stats.min.js")
-    script(src="/javascripts/Detector.js")
-    script(src="/javascripts/creator.js")
+    script(src="javascripts/app/creator/three.min.js")
+    script(src="javascripts/app/creator/system.min.js")
+    script(src="javascripts/app/creator/EditorControls.js")
+    script(src="javascripts/app/creator/TransformControls.js")
+    script(src="javascripts/app/creator/BabylonLoader.js")
+    script(src="javascripts/app/creator/ColladaLoader.js")
+    script(src="javascripts/app/creator/OBJLoader.js")
+    script(src="javascripts/app/creator/PLYLoader.js")
+    script(src="javascripts/app/creator/STLLoader.js")
+    script(src="javascripts/app/creator/UTF8Loader.js")
+    script(src="javascripts/app/creator/VRMLLoader.js")
+    script(src="javascripts/app/creator/VTKLoader.js")
+    script(src="javascripts/app/creator/lzma.js")
+    script(src="javascripts/app/creator/ctm.js")
+    script(src="javascripts/app/creator/CTMLoader.js")
+    script(src="javascripts/app/creator/SceneExporter.js")
+    script(src="javascripts/app/creator/OBJExporter.js")
+    script(src="javascripts/app/creator/SoftwareRenderer.js")
+    script(src="javascripts/app/creator/SVGRenderer.js")
+    script(src="javascripts/app/creator/BufferGeometryUtils.js")
+    script(src="javascripts/app/creator/BufferGeometryExporter.js")
+    script(src="javascripts/app/creator/GeometryExporter.js")
+    script(src="javascripts/app/creator/MaterialExporter.js")
+    script(src="javascripts/app/creator/ObjectExporter.js")
+    script(src="javascripts/app/creator/WebGLRenderer3.js")
+    script(src="javascripts/app/creator/libs/signals.min.js")
+    script(src="javascripts/app/creator/libs/ui.js")
+    script(src="javascripts/app/creator/libs/ui.three.js")
+
+    script(src="javascripts/app/creator/Storage.js")
+
+    script(src="javascripts/app/creator/Editor.js")
+    script(src="javascripts/app/creator/Config.js")
+    script(src="javascripts/app/creator/Loader.js")
+    script(src="javascripts/app/creator/Menubar.js")
+    script(src="javascripts/app/creator/Menubar.File.js")
+    script(src="javascripts/app/creator/Menubar.Edit.js")
+    script(src="javascripts/app/creator/Menubar.Add.js")
+    script(src="javascripts/app/creator/Menubar.View.js")
+    script(src="javascripts/app/creator/Menubar.Help.js")
+    script(src="javascripts/app/creator/Menubar.SignUp.js")
+    script(src="javascripts/app/creator/Sidebar.js")
+    script(src="javascripts/app/creator/Sidebar.Renderer.js")
+    script(src="javascripts/app/creator/Sidebar.Scene.js")
+    script(src="javascripts/app/creator/Sidebar.Object3D.js")
+    script(src="javascripts/app/creator/Sidebar.Geometry.js")
+    script(src="javascripts/app/creator/Sidebar.Animation.js")
+    script(src="javascripts/app/creator/Sidebar.Geometry.CircleGeometry.js")
+    script(src="javascripts/app/creator/Sidebar.Geometry.CubeGeometry.js")
+    script(src="javascripts/app/creator/Sidebar.Geometry.CylinderGeometry.js")
+    script(src="javascripts/app/creator/Sidebar.Geometry.IcosahedronGeometry.js")
+    script(src="javascripts/app/creator/Sidebar.Geometry.PlaneGeometry.js")
+    script(src="javascripts/app/creator/Sidebar.Geometry.SphereGeometry.js")
+    script(src="javascripts/app/creator/Sidebar.Geometry.TorusGeometry.js")
+    script(src="javascripts/app/creator/Sidebar.Geometry.TorusKnotGeometry.js")
+    script(src="javascripts/app/creator/Sidebar.Material.js")
+    script(src="javascripts/app/creator/Toolbar.js")
+    script(src="javascripts/app/creator/Viewport.js")
+
+    //script(src="javascripts/vendors/jquery-1.10.2.js")
+    //script(src="javascripts/app/creator/creator.js")
+    //script(src="javascripts/vendors/foundation.min.js")
+    //script.
+            $(document).foundation();
+
+    script.
+
+            window.URL = window.URL || window.webkitURL;
+            window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
+
+            var editor = new Editor();
+
+            var viewport = new Viewport( editor ).setId( 'viewport' );
+            document.body.appendChild( viewport.dom );
+
+            var toolbar = new Toolbar( editor ).setId( 'toolbar' )
+            document.body.appendChild( toolbar.dom );
+
+            var menubar = new Menubar( editor ).setId( 'menubar' );
+            document.body.appendChild( menubar.dom );
+
+            var sidebar = new Sidebar( editor ).setId( 'sidebar' );
+            document.body.appendChild( sidebar.dom );
+
+            editor.setTheme( editor.config.getKey( 'theme' ) );
+
+            editor.storage.init( function () {
+
+                editor.storage.get( function ( state ) {
+
+                    if ( state !== undefined ) {
+
+                        var loader = new THREE.ObjectLoader();
+                        var scene = loader.parse( state );
+
+                        editor.setScene( scene );
+
+                    }
+
+                    var selected = editor.config.getKey( 'selected' );
+
+                    if ( selected !== undefined ) {
+
+                        editor.selectByUuid( selected );
+
+                    }
+
+                } );
+
+                var timeout;
+                var exporter = new THREE.ObjectExporter();
+
+                var saveState = function ( scene ) {
+
+                    clearTimeout( timeout );
+
+                    timeout = setTimeout( function () {
+
+                        editor.storage.set( exporter.parse( editor.scene ) );
+
+                    }, 2000 );
+
+                };
+
+                var signals = editor.signals;
+
+                signals.objectAdded.add( saveState );
+                signals.objectChanged.add( saveState );
+                signals.objectRemoved.add( saveState );
+                signals.sceneGraphChanged.add( saveState );
+
+            } );
+
+            document.addEventListener( 'dragover', function ( event ) {
+
+                event.preventDefault();
+                event.dataTransfer.dropEffect = 'copy';
+
+            }, false );
+
+            document.addEventListener( 'drop', function ( event ) {
+
+                event.preventDefault();
+                editor.loader.loadFile( event.dataTransfer.files[ 0 ] );
+
+            }, false );
+
+            document.addEventListener( 'keydown', function ( event ) {
+
+                switch ( event.keyCode ) {
+
+                    case 46: // delete
+
+                        editor.removeObject( editor.selected );
+                        editor.deselect();
+
+                        break;
+
+                    }
+
+            }, false );
+
+            var onWindowResize = function ( event ) {
+
+                editor.signals.windowResize.dispatch();
+
+            };
+
+            window.addEventListener( 'resize', onWindowResize, false );
+
+            onWindowResize();
