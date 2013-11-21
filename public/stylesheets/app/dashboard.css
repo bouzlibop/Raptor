@@ -70,3 +70,65 @@ body {
     text-align:center;
 }
 
+.left_menu{
+    transition: all 0.5s ease;
+    position: fixed;
+    width: 300px;
+    margin-top: 50px;
+    margin-left: -299px;
+}
+
+.left_menu_arrow{
+    position: absolute;
+    left: 300px;
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px dotted darkred;
+}
+/* Pricing Tables */
+.pricing-table {
+    border-right: solid 2px darkred;
+    border-top: solid 2px darkred;
+    border-bottom: solid 2px darkred;
+    margin-left: 0;
+    margin-bottom: 1.25em; }
+.pricing-table * {
+    list-style: none;
+    line-height: 1; }
+.pricing-table .title {
+    background-color: #000000;
+    padding: 0.9375em 1.25em;
+    text-align: center;
+    color: #ff0000;
+    font-weight: bold;
+    font-size: 1em; }
+.pricing-table .price {
+    background-color: #000000;
+    padding: 0.9375em 1.25em;
+    text-align: center;
+    color: #ffffff;
+    font-weight: normal;
+    font-size: 1.25em; }
+.pricing-table .description {
+    background-color: #000000;
+    padding: 0.9375em;
+    text-align: center;
+    color: #ffffff;
+    font-size: 0.75em;
+    font-weight: normal;
+    line-height: 1.4;
+    border-bottom: dotted 2px #ffffff; }
+.pricing-table .bullet-item {
+    background-color: #000000;
+    padding: 0.9375em;
+    text-align: center;
+    color: #ffffff;
+    font-size: 0.875em;
+    font-weight: normal;
+    border-bottom: dotted 1px #ffffff; }
+.pricing-table .cta-button {
+    background-color: #000000;
+    text-align: center;
+    padding: 1.25em 1.25em 0; }

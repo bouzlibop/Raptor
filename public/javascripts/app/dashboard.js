@@ -1,7 +1,24 @@
 var server = "http://127.0.0.1:3000"
 var userId = $('#deleteUser').attr('data-user-id');
 
-setTimeout( function(){$('#left_menu').css('left','-30px');},2000);
+$('#panelBtn').click(function(){
+    var margin = $('.left_menu').css('margin-left');
+    if(margin==="-299px"){
+        $('.left_menu').css('margin-left','-1px');
+    }
+    if(margin=="-1px"){
+        $('.left_menu').css('margin-left','-299px');
+    }
+});
+
+$('.left_menu').hover(
+    function(){
+        $(this).css('margin-left','-1px');
+    },
+    function(){
+        $(this).css('margin-left','-299px');
+    }
+);
 
 $('#deleteUser').click(function(){
     $.ajax({
