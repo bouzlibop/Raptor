@@ -41,11 +41,28 @@ exports.deleteUser = function(userId, res){
     })
 };
 
+exports.showUserModels = function(userId, res){
+    console.log(userId);
+    GLOBAL.gfs.files.find({ metadata: {userId: userId} }).toArray(function (err, files) {
+        if (err) throw err;
+        var models = [];
+        for(var i=0;i<files.length;i++){
+            models.push(files[i].filename);
+        }
+        res.set('Access-Control-Allow-Origin', '*');
+        res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+        res.send(200, models);
+    });
+//      var readStream = GLOBAL.gfs.createReadStream({ metadata: {userId: userId} });
+//     readStream.pipe(res);
+
+}
+
 exports.upload = function(req,res){
     //    console.log('file: %j', req.files.model);
     var model = req.files.model;
     var is = fs.createReadStream(model.path);
-    var os = GLOBAL.gfs.createWriteStream({filename: model.name, metadata: {username: req.user.username}});
+    var os = GLOBAL.gfs.createWriteStream({filename: model.name, metadata: {userId: req.user.id}});
 //    console.log(req.files.model);
     is.pipe(os);
     os.on('close', function(file){

@@ -53,18 +53,13 @@ $('#uploadBtn').click(function(){
 });
 
 $('#showFileBtn').click(function(){
-//    $.ajax({
-//        type: 'GET',
-//        url: server+"/showAll"
-//    }).done(function(data){
-//             console.log(unescape(data));
-//            data = Base64.decode(data);
-//            $("#imageList").html('<img src="data:image/png;base64,'+data+'">');
-            $("#imageList").html('<img src="http://127.0.0.1:3000/showAll">');
-//    });
+    $.ajax({
+        type: 'GET',
+        url: server+"/models/"+$('#showFileBtn').attr('data-user-id')
+    }).done(function(data){
+        console.log(data);
+    });
 });
-
-
 
 //TODO-me change file name
 //TODO-me redirect options how to

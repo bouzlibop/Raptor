@@ -52,11 +52,6 @@ body {
     color: #f00;
 }
 
-.top-bar-section img{
-    max-height:45px;
-    max-width:45px;
-}
-
 .reveal-modal h2{
     color: white;
 }

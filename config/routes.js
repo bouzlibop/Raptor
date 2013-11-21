@@ -78,6 +78,10 @@ module.exports = function (app, passport, handler, config) {
         handler.deleteUser(req.param('id'), res);
     });
 
+    app.get('/models/:id', function(req,res){
+        handler.showUserModels(req.param('id'),res);
+    });
+
 }
 
 

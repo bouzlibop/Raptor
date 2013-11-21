@@ -37,7 +37,6 @@ block append content
             li.title #{title}
             li.description User ID:
             li.price #{userId}
-            //li.bullet-item Delete user
             li.description Upload new file
             li.bullet-item
                 form(id="uploadFile")
@@ -45,29 +44,16 @@ block append content
                     a.button.alert.radius.small(id="uploadBtn") Upload !
             li.description User functions
             li.cta-button
-                a.button.radius.small.alert(id="showFileBtn") Show my models
+                a.button.radius.small.alert(id="showFileBtn" data-user-id=userId) Show my models
             li.description Delete user
             li.cta-button
                 a.button.alert.small.radius(id="deleteUser" data-user-id=userId) DeleteMe !
-            //li.description Log out
             li.cta-button
                 a.button.alert.small.radius(id="logOut") LogOut !
-//    //h1= title
-//    ul.f-dropdown.content(id="drop1" data-dropdown-content)
-//        li #{title}
-//li
-//    form(id="uploadFile")
-//        input(id="uploadModel" type="file" name="model")
-//        a.button.alert.radius.tiny(id="uploadBtn") Upload!
-//li
-//    a.button.radius.small.alert(id="showFileBtn") Show my models
-//li
-//    a.button.alert.small.radius(id="deleteUser" data-user-id=userId) DeleteMe!
-//li
-//    a.button.alert.small.radius(id="logOut") LogOut!
 block append javascript
     script(src="javascripts/vendors/jquery-1.10.2.js")
     script(src="javascripts/vendors/foundation.min.js")
+    //script(src="javascripts/vendors/angular.js")
     script(src="javascripts/app/dashboard.js")
     script.
         $(document).foundation();
