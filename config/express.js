@@ -21,6 +21,7 @@ module.exports = function (express, app, config, passport) {
     app.use(passport.session());
     app.use(app.router);
     app.use(express.static(path.join(config.root, 'public')));
+    app.use('/creator/', express.static(path.join(config.root, 'public')));
 
     app.configure('development', function () {
         app.locals.pretty = true;

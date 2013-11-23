@@ -41,13 +41,20 @@ exports.deleteUser = function(userId, res){
     })
 };
 
+exports.getSingleModel = function(modelName, res){
+    var readStream = GLOBAL.gfs.createReadStream({ filename: modelName});
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    readStream.pipe(res);
+}
+
 exports.showUserModels = function(userId, res){
-    console.log(userId);
+    //console.log(userId);
     GLOBAL.gfs.files.find({ metadata: {userId: userId} }).toArray(function (err, files) {
         if (err) throw err;
         var models = [];
         for(var i=0;i<files.length;i++){
-            models.push(files[i].filename);
+            models.push({filename: files[i].filename, date: files[i].uploadDate, size: Math.round((files[i].length/1024)*100)/100, id:files[i]._id});
         }
         res.set('Access-Control-Allow-Origin', '*');
         res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -57,6 +64,14 @@ exports.showUserModels = function(userId, res){
 //     readStream.pipe(res);
 
 }
+
+exports.editModel = function(modelId, res){
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.send((200, 'http://127.0.0.1:3000/creator/'+modelId));
+}
+
+
 
 exports.upload = function(req,res){
     //    console.log('file: %j', req.files.model);

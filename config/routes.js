@@ -15,17 +15,21 @@ module.exports = function (app, passport, handler, config) {
     app.get('/', ensureAuthenticated, router.dashboard);
 
     app.get('/login', router.login);
-    app.post('/login', function(req, res, next) {
-        passport.authenticate('local', function(err, user, info) {
-            if (err) { return next(err); }
+    app.post('/login', function (req, res, next) {
+        passport.authenticate('local', function (err, user, info) {
+            if (err) {
+                return next(err);
+            }
             if (!user) {
                 res.set('Access-Control-Allow-Origin', '*');
                 res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
                 res.send(200, 'http://127.0.0.1:3000/login');
 
-            } else{
-                req.logIn(user, function(err) {
-                    if (err) { return next(err); }
+            } else {
+                req.logIn(user, function (err) {
+                    if (err) {
+                        return next(err);
+                    }
                     res.set('Access-Control-Allow-Origin', '*');
                     res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
                     res.send(200, 'http://127.0.0.1:3000/');
@@ -35,6 +39,7 @@ module.exports = function (app, passport, handler, config) {
     });
 
     app.get('/creator', router.creator);
+    app.get('/creator/:id', router.creator);
     app.get('/shop', router.shop);
     app.get('/blog', router.blog);
     app.get('/about', router.about);
@@ -78,12 +83,20 @@ module.exports = function (app, passport, handler, config) {
         handler.deleteUser(req.param('id'), res);
     });
 
-    app.get('/models/:id', function(req,res){
-        handler.showUserModels(req.param('id'),res);
+    app.get('/model/:id', function(req,res){
+        handler.getSingleModel(req.param('id'), res);
     });
 
-}
+    app.get('/models/:id', function (req, res) {
+        handler.showUserModels(req.param('id'), res);
+    });
 
+    app.get('/edit/:id', function (req, res) {
+        handler.editModel(req.param('id'), res);
+    });
+
+
+}
 
 
 //TODO-me move to handler

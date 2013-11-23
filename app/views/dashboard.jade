@@ -31,29 +31,47 @@ block append content
                 li.divider
                 li
                     a(id="panelBtn") #{title}
-    .left_menu
-        .left_menu_arrow(id="left_menu_arrow")
-        ul.pricing-table
-            li.title #{title}
-            li.description User ID:
-            li.price #{userId}
-            li.description Upload new file
-            li.bullet-item
-                form(id="uploadFile")
-                    input(id="uploadModel" type="file" name="model")
-                    a.button.alert.radius.small(id="uploadBtn") Upload !
-            li.description User functions
-            li.cta-button
-                a.button.radius.small.alert(id="showFileBtn" data-user-id=userId) Show my models
-            li.description Delete user
-            li.cta-button
-                a.button.alert.small.radius(id="deleteUser" data-user-id=userId) DeleteMe !
-            li.cta-button
-                a.button.alert.small.radius(id="logOut") LogOut !
+    div(ng-app="myApp")
+        div(ng-controller="modelsCtrl")
+            .left_menu
+                .left_menu_arrow(id="left_menu_arrow")
+                ul.pricing-table
+                    li.title #{title}
+                    li.description User ID:
+                    li.price #{userId}
+                    li.description Upload new file
+                    li.bullet-item
+                        form(id="uploadFile")
+                            input(id="uploadModel" type="file" name="model")
+                            a.button.alert.radius.small(id="uploadBtn") Upload !
+                    li.description User functions
+                    li.cta-button
+                        a.button.radius.small.alert(id="showFileBtn" data-user-id=userId ng-click="getModels()") Show my models
+                    li.description Delete user
+                    li.cta-button
+                        a.button.alert.small.radius(id="deleteUser" data-user-id=userId) DeleteMe !
+                    li.cta-button
+                        a.button.alert.small.radius(id="logOut") LogOut !
+            .models-list.row
+                .large-centered
+                    table
+                        thead
+                            tr
+                                th(width="200") Filename
+                                th Edit
+                                th(width="150") Size [kB]
+                                th(width="250") Upload Date
+                        tbody
+                            tr(ng-repeat="model in models")
+                                td {{model.filename}}
+                                td
+                                    a.button.alert.small.radius.edit(id="editModelBtn" data-model-id="{{model.id}}" ng-click="editModel($index)") Edit
+                                td {{model.size}}
+                                td {{model.date}}
 block append javascript
     script(src="javascripts/vendors/jquery-1.10.2.js")
     script(src="javascripts/vendors/foundation.min.js")
-    //script(src="javascripts/vendors/angular.js")
+    script(src="javascripts/vendors/angular.js")
     script(src="javascripts/app/dashboard.js")
     script.
         $(document).foundation();

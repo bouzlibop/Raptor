@@ -52,6 +52,8 @@ var Editor = function () {
 	this.selected = null;
 	this.helpers = {};
 
+    this.creator = new Creator(this);
+
 };
 
 Editor.prototype = {

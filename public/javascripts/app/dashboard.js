@@ -52,14 +52,30 @@ $('#uploadBtn').click(function(){
     });
 });
 
-$('#showFileBtn').click(function(){
-    $.ajax({
-        type: 'GET',
-        url: server+"/models/"+$('#showFileBtn').attr('data-user-id')
-    }).done(function(data){
-        console.log(data);
-    });
-});
+var app = angular.module('myApp', []);
+function modelsCtrl($scope, $http){
+    $scope.models = [];
+    $scope.getModels = function(){
+        $http.get(server+"/models/"+userId).success(
+            function(data){
+                $scope.models = data;
+            });
+    }
+    $scope.editModel = function(modelNo){
+        $http.get(server+'/edit/'+$scope.models[modelNo].filename).success(function(data){window.location.replace(data)});
+    }
+}
+
+
+
+//$('#showFileBtn').click(function(){
+//    $.ajax({
+//        type: 'GET',
+//        url: server+"/models/"+$('#showFileBtn').attr('data-user-id')
+//    }).done(function(data){
+//        console.log(data);
+//    });
+//});
 
 //TODO-me change file name
 //TODO-me redirect options how to

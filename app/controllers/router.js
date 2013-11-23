@@ -7,15 +7,18 @@ exports.login = function(req,res){
 };
 
 exports.creator = function(req, res){
-    res.render('creator', { server: config.server});
+//    req.route.path = "/";
+    console.log(req);
+    if(req.param('id')) res.render('creator', { server: config.server, modelId: req.param('id')});
+    else res.render('creator', { server: config.server});
 }
 
 exports.blog = function(req, res){
-    res.render('blog', { server: config.server});
+    res.render('login', { server: config.server});
 }
 
 exports.shop = function(req, res){
-    res.render('shop',  { server: config.server});
+    res.render('login',  { server: config.server});
 }
 
 exports.register = function(req, res){
@@ -23,7 +26,7 @@ exports.register = function(req, res){
 }
 
 exports.about = function(req, res){
-    res.render('about', {server: config.server});
+    res.render('login', {server: config.server});
 }
 
 exports.dashboard = function(req, res){
